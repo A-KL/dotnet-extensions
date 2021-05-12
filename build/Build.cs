@@ -80,7 +80,8 @@ class Build : NukeBuild
                 .SetNoBuild(true)
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
-                .EnableNoRestore());
+                .EnableNoRestore()
+                .EnableNoBuild());
         });
 
     Target Pack => _ => _
