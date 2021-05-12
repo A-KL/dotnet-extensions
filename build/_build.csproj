@@ -7,7 +7,7 @@
     <RootNamespace></RootNamespace>
     <NoWarn>CS0649;CS0169</NoWarn>
     <NukeRootDirectory>..</NukeRootDirectory>
-    <NukeScriptDirectory>..\DotNet.Cookbook</NukeScriptDirectory>
+    <NukeScriptDirectory>..</NukeScriptDirectory>
   </PropertyGroup>
 
   <ItemGroup>

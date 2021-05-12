@@ -3,7 +3,6 @@ using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.Execution;
-using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
@@ -67,10 +66,10 @@ class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
-                .EnableNoRestore());
+                //.SetAssemblyVersion(GitVersion.AssemblySemVer)
+                //.SetFileVersion(GitVersion.AssemblySemFileVer)
+                //.SetInformationalVersion(GitVersion.InformationalVersion)
+                );
         });
 
     Target Test => _ => _
@@ -81,7 +80,8 @@ class Build : NukeBuild
                 .SetNoBuild(true)
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
-                .EnableNoRestore());
+                .EnableNoRestore()
+                .EnableNoBuild());
         });
 
     Target Pack => _ => _
@@ -95,10 +95,11 @@ class Build : NukeBuild
                 .EnableNoRestore()
                 .SetNoDependencies(true)
                 .SetOutputDirectory(PackagesDirectory)
-                .SetVersion(GitVersion.NuGetVersionV2)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion));
+                //.SetVersion(GitVersion.NuGetVersionV2)
+                //.SetAssemblyVersion(GitVersion.AssemblySemVer)
+                //.SetFileVersion(GitVersion.AssemblySemFileVer)
+                //.SetInformationalVersion(GitVersion.InformationalVersion)
+                );
         });
 
     Target Push => _ => _
