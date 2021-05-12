@@ -1,2 +1,5 @@
-DotNet.Cookbook/.vs/
-DotNet.Cookbook/artifacts/
+.vs/
+.tmp/
+artifacts/
+build/bin/
+build/obj/

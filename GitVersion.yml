@@ -1,0 +1,14 @@
+assembly-informational-format: '{NuGetVersion}'
+mode: ContinuousDeployment
+branches:
+  main:
+    tag: b
+    increment: Minor
+  feature:
+    regex: feature(s)?[/-]
+    tag: a-{BranchName}
+    increment: Minor
+  hotfix:
+    regex: hotfix(es)?[/-]
+    tag: hotfix-{BranchName}
+    increment: Patch
