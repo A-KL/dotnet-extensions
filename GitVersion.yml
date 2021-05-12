@@ -12,3 +12,7 @@ branches:
     regex: hotfix(es)?[/-]
     tag: hotfix-{BranchName}
     increment: Patch
+  fix:
+    regex: fix(es)?[/-]
+    tag: fix-{BranchName}
+    increment: Patch
