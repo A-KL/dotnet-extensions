@@ -34,5 +34,13 @@ namespace DotNet.Cookbook.Configuration
                     .GetSection(path)
                     .Get<TConfiguration>());
         }
+
+        public static TConfiguration GetDefaults<TConfiguration>(this IConfiguration configuration, string path = default)
+            where TConfiguration : class
+        {
+            return configuration
+                    .GetSection(path ?? typeof(TConfiguration).Name)
+                    .Get<TConfiguration>();
+        }
     }
 }
