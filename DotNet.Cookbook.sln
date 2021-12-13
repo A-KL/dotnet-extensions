@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet.Cookbook.DocumentDB"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet.Cookbook.Http", "src\DotNet.Cookbook.Http\DotNet.Cookbook.Http.csproj", "{64DB16B4-AF4A-428F-80DA-AF89C3EFB18F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.Cookbook.KeyVault", "src\DotNet.Cookbook.KeyVault\DotNet.Cookbook.KeyVault.csproj", "{4B8B659A-6A33-457C-A4B9-F303E8C70F81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet.Cookbook.KeyVault", "src\DotNet.Cookbook.KeyVault\DotNet.Cookbook.KeyVault.csproj", "{4B8B659A-6A33-457C-A4B9-F303E8C70F81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.Cookbook.Filters", "src\DotNet.Cookbook.Filters\DotNet.Cookbook.Filters.csproj", "{BEB4B16A-B091-417D-989E-A684693857E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{4B8B659A-6A33-457C-A4B9-F303E8C70F81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B8B659A-6A33-457C-A4B9-F303E8C70F81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B8B659A-6A33-457C-A4B9-F303E8C70F81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEB4B16A-B091-417D-989E-A684693857E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB4B16A-B091-417D-989E-A684693857E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB4B16A-B091-417D-989E-A684693857E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB4B16A-B091-417D-989E-A684693857E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
