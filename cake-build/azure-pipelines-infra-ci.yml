@@ -1,0 +1,49 @@
+variables:
+  TF_IN_AUTOMATION: true
+#  TF_LOG: INFO
+
+jobs:
+- job: validate
+  displayName: 'Validate'
+  variables:
+  - name: 'location'
+    value: 'westus2'
+  - name: 'environment'
+    value: 'dev'
+  - name: 'backend_storageaccount_key'
+    value: 'example/$(environment)/$(location)/terraform.tfstate'
+  pool: 
+    vmImage: 'ubuntu-latest'
+  steps:
+  - task: AzureCLI@2
+    displayName: 'Setup Terraform->Azure Access'
+    inputs:
+      azureSubscription: 'dev-example'
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+          Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID]$($env:servicePrincipalId)"
+          Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$($env:servicePrincipalKey)"
+          Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID]$($env:tenantId)"
+      addSpnToEnvironment: true
+      failOnStandardError: true
+  - task: file-creator@5
+    displayName: 'Setup Terraform Backend'
+    inputs:
+      fileoverwrite: true
+      filepath: './infra/terraform/backend.tf'
+      filecontent: |
+          terraform {
+            backend "azurerm" {
+              resource_group_name = "$(backend_resourcegroup)"
+              storage_account_name = "$(backend_storage_account_name)"
+              container_name = "$(backend_container_name)"
+              key = "$(backend_storageaccount_key)"
+              subscription_id = "$(backend_subscription)"
+            }
+          }
+  - script: './build.sh --Target=TerraformPlan'
+    displayName: 'Run Script'
+    env:
+      REGION: $(location)
+      ENV: $(environment)
