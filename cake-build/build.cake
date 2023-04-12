@@ -19,9 +19,10 @@ var terraformOutputDirectory = artifactsDirectory + Directory("terraform");
 
 var terraformVersion = "1.1.7";
 var terraformParametersDir =  rootDirectory + Directory("tfvars");
+var terraformBackendDir =  rootDirectory + Directory("backend");
+
 var terraformOsFamily = IsRunningOnMacOs() ? "darwin" : IsRunningOnWindows() ? "windows" : "linux";
 var terraformPlatform = Context.Environment.Platform.Is64Bit ? "amd64" : "386";
-var terraformInitParameters = EnvironmentVariable("TF_INIT_PARAMETERS");
 var terraformExecutable = $"terraform{(IsRunningOnWindows() ? ".exe" : string.Empty)}";
 const string terraformPlanName = "tfplan";
 
@@ -31,15 +32,22 @@ var env = EnvironmentVariable("ENV") ?? env_arg;
 var terraformParametersFile = terraformParametersDir + File($"{env}-{region}.tfvars");
 var terraformJsonParametersFile = terraformParametersDir + File($"{env}-{region}.json");
 
+var terraformBackendFile = terraformBackendDir + File("backend.tf");
+var terraformJsonBackendFile = terraformBackendDir + File($"{env}-{region}.json");
+
 string BuildPlanArguments(bool toDestroy = false, string planName = terraformPlanName) {
     return
         "plan -no-color -input=false " +
         (toDestroy ? "-destroy " : string.Empty) +
-        (string.IsNullOrEmpty(planName) ? string.Empty : $"-out={planName} ") +
-        BuildTerraformParameters("TF_PARAMETERS");
+        (string.IsNullOrEmpty(planName) ? string.Empty : $"-out={planName} ");
 }
 
-string BuildTerraformParameters(string envVariableName) {
+string BuildInitArguments() {
+    return
+        "init -no-color -input=false ";
+}
+
+string BuildTerraformParameters(string envVariableName = "TF_PARAMETERS") {
     var terraformParameters = EnvironmentVariable(envVariableName);
 
     if (!string.IsNullOrEmpty(terraformParameters)) {
@@ -57,7 +65,29 @@ string BuildTerraformParameters(string envVariableName) {
         return string.Join(' ', vars);
     }
 
-    Information("No parameters were found.");
+    Warning("No parameters were found.");
+    return string.Empty;
+}
+
+string BuildBackendParameters(string envVariableName = "TF_BACKEND_PARAMETERS"){
+    var terraformBackendParameters = EnvironmentVariable(envVariableName);
+
+    if (!string.IsNullOrEmpty(terraformBackendParameters)) {
+        Information($"Using backend from '{envVariableName}' env variable.");
+        return terraformBackendParameters;
+    }
+
+    if (FileExists(terraformJsonBackendFile)) {
+        Information($"Using backend from {terraformJsonBackendFile} file.");
+        var json = (IDictionary<string, JToken>)ParseJsonFromFile(terraformJsonBackendFile);
+        var vars = json.Select(x=> $"-backend-config={x.Key}={x.Value}");
+        return string.Join(' ', vars);
+    }
+
+    if (FileExists(terraformBackendFile)) {
+        Information($"Using backend from {terraformBackendFile} file.");
+    }
+
     return string.Empty;
 }
 
@@ -119,14 +149,28 @@ Task("TerraformInit")
     .IsDependentOn("TerraformDownload")
     .Does(() =>
 {
-    Run("terraform", "init -no-color -input=false " + terraformInitParameters);
+    Run("terraform", BuildInitArguments() + BuildBackendParameters());
 });
 
 Task("TerraformPlan")
     .IsDependentOn("TerraformInit")
     .Does(() =>
 {
-    Run("terraform", BuildPlanArguments(toDestroy: false));
+    Run("terraform", BuildPlanArguments(toDestroy: false) + BuildTerraformParameters());
+});
+
+Task("TerraformPlanDestroy")
+    .IsDependentOn("TerraformInit")
+    .Does(() =>
+{
+    Run("terraform", BuildPlanArguments(toDestroy: true));
+});
+
+Task("TerraformApply")
+    .IsDependentOn("TerraformPlan")
+    .Does(() =>
+{
+    Run("terraform", $"apply {terraformPlanName}");
 });
 
 Task("TerraformPublish")
@@ -143,20 +187,6 @@ Task("TerraformForceUnlock")
     .Does(() =>
 {
     Run("terraform", $"force-unlock {unlockId}");
-});
-
-Task("TerraformPlanDestroy")
-    .IsDependentOn("TerraformInit")
-    .Does(() =>
-{
-    Run("terraform", BuildPlanArguments(toDestroy: true));
-});
-
-Task("TerraformApply")
-    .IsDependentOn("TerraformPlan")
-    .Does(() =>
-{
-    Run("terraform", $"apply {terraformPlanName}");
 });
 
 Task("TerraformDestroy")
