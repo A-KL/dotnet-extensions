@@ -9,7 +9,7 @@ var unlockId = Argument("unlockId", "");
 var env_arg = Argument("env", "dev");
 var region_arg = Argument("region", "westus2");
 
-var rootDirectory = Directory("./");
+var rootDirectory = Context.Environment.WorkingDirectory;
 var artifactsDirectory = rootDirectory + Directory("artifacts");
 
 var infraDirectory = rootDirectory + Directory("infra");
@@ -18,8 +18,8 @@ var tempDirectory = Context.Environment.GetSpecialPath(SpecialPath.LocalTemp);
 var terraformOutputDirectory = artifactsDirectory + Directory("terraform");
 
 var terraformVersion = "1.1.7";
-var terraformParametersDir =  rootDirectory + Directory("tfvars");
-var terraformBackendDir =  rootDirectory + Directory("backend");
+var terraformParametersDir =  terraformDirectory + Directory("tfvars");
+var terraformBackendDir =  terraformDirectory + Directory("backend");
 
 var terraformOsFamily = IsRunningOnMacOs() ? "darwin" : IsRunningOnWindows() ? "windows" : "linux";
 var terraformPlatform = Context.Environment.Platform.Is64Bit ? "amd64" : "386";
