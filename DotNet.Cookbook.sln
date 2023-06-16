@@ -27,11 +27,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet.Cookbook.Repository.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet.Cookbook.Repository.Csv", "src\DotNet.Cookbook.Repository.Csv\DotNet.Cookbook.Repository.Csv.csproj", "{EB193EDF-BF64-4EF4-9894-72FAB0A4D5AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.Cookbook.Caching.DynamicProxy", "src\DotNet.Cookbook.Caching.DynamicProxy\DotNet.Cookbook.Caching.DynamicProxy.csproj", "{D6CCBB6B-D545-4E75-A313-D4F23EEB7D80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet.Cookbook.Caching.DynamicProxy", "src\DotNet.Cookbook.Caching.DynamicProxy\DotNet.Cookbook.Caching.DynamicProxy.csproj", "{D6CCBB6B-D545-4E75-A313-D4F23EEB7D80}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".tests", ".tests", "{B508AA84-CDF1-4164-870E-9155C9E96A40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.Cookbook.Caching.DynamicProxy.Tests", "tests\DotNet.Cookbook.Caching.DynamicProxy.Tests\DotNet.Cookbook.Caching.DynamicProxy.Tests.csproj", "{20AB20C1-506A-43C1-A6B0-FA84CDE55B80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet.Cookbook.Caching.DynamicProxy.Tests", "tests\DotNet.Cookbook.Caching.DynamicProxy.Tests\DotNet.Cookbook.Caching.DynamicProxy.Tests.csproj", "{20AB20C1-506A-43C1-A6B0-FA84CDE55B80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.Cookbook.Parsing", "src\DotNet.Cookbook.Parsing\DotNet.Cookbook.Parsing.csproj", "{5144FC90-D5E0-4D3E-AA6E-1FF9D5999901}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{20AB20C1-506A-43C1-A6B0-FA84CDE55B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20AB20C1-506A-43C1-A6B0-FA84CDE55B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20AB20C1-506A-43C1-A6B0-FA84CDE55B80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5144FC90-D5E0-4D3E-AA6E-1FF9D5999901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5144FC90-D5E0-4D3E-AA6E-1FF9D5999901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5144FC90-D5E0-4D3E-AA6E-1FF9D5999901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5144FC90-D5E0-4D3E-AA6E-1FF9D5999901}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
