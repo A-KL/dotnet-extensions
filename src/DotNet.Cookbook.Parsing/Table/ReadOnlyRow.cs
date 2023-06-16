@@ -1,30 +1,31 @@
-﻿namespace DotNet.Cookbook.Parsing.Table;
+﻿using System;
+using System.Collections.Generic;
 
-/// <inheritdoc />
-public class ReadOnlyRow : IReadOnlyRow
+namespace DotNet.Cookbook.Parsing.Table
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ReadOnlyRow" /> class.
-    /// </summary>
-    public ReadOnlyRow(IReadOnlyList<string> values)
-    {
-        Values = values;
-    }
-
-    /// <summary>
-    /// Represents a list of values in the row.
-    /// </summary>
-    public IReadOnlyList<string> Values { get; }
-
     /// <inheritdoc />
-    public string this[int index]
+    public class ReadOnlyRow : IReadOnlyRow
     {
-        get => Values[index];
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyRow" /> class.
+        /// </summary>
+        public ReadOnlyRow(IReadOnlyList<string> values)
+        {
+            Values = values;
+        }
 
-    /// <inheritdoc />
-    public T Column<T>(int columnIndex)
-    {
-        return (T)Convert.ChangeType(Values[columnIndex], typeof(T), null);
+        /// <summary>
+        /// Represents a list of values in the row.
+        /// </summary>
+        public IReadOnlyList<string> Values { get; }
+
+        /// <inheritdoc />
+        public string this[int index] => Values[index];
+
+        /// <inheritdoc />
+        public T Column<T>(int columnIndex)
+        {
+            return (T)Convert.ChangeType(Values[columnIndex], typeof(T), null);
+        }
     }
 }

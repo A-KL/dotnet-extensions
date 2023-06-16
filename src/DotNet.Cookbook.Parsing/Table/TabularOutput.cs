@@ -1,35 +1,40 @@
-﻿namespace DotNet.Cookbook.Parsing.Table;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-/// <summary>
-/// Utils methods to work with tabular data.
-/// </summary>
-public static class TabularOutput
+namespace DotNet.Cookbook.Parsing.Table
 {
     /// <summary>
-    /// Parses the specified input into a collection of <see cref="ReadOnlyRow" />.
+    /// Utils methods to work with tabular data.
     /// </summary>
-    public static IReadOnlyCollection<IReadOnlyRow> Parse(string input, bool header = false)
+    public static class TabularOutput
     {
-        if (string.IsNullOrWhiteSpace(input))
+        /// <summary>
+        /// Parses the specified input into a collection of <see cref="ReadOnlyRow" />.
+        /// </summary>
+        public static IReadOnlyCollection<IReadOnlyRow> Parse(string input, bool header = false)
         {
-            throw new ArgumentNullException(nameof(input));
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
+            var lines = input
+                .Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim())
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToList();
+
+            if (!lines.Any())
+            {
+                return new List<IReadOnlyRow>();
+            }
+
+            return lines
+                .Skip(header ? 1 : 0)
+                .Select(row => row.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+                .Select(x => new ReadOnlyRow(x))
+                .ToList();
         }
-
-        var lines = input
-            .Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Trim())
-            .Where(x => !string.IsNullOrWhiteSpace(x))
-            .ToList();
-
-        if (!lines.Any())
-        {
-            return new List<IReadOnlyRow>();
-        }
-
-        return lines
-            .Skip(header ? 1 : 0)
-            .Select(row => row.Split(' ', StringSplitOptions.RemoveEmptyEntries))
-            .Select(x => new ReadOnlyRow(x))
-            .ToList();
     }
 }

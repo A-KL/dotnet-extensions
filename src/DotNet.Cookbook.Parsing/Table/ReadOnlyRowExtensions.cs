@@ -1,28 +1,32 @@
-﻿namespace DotNet.Cookbook.Parsing.Table;
+﻿using System;
+using System.Collections.Generic;
 
-/// <summary>
-/// Represents a collection of extension methods for <see cref="ReadOnlyRow" />.
-/// </summary>
-public static class ReadOnlyRowExtensions
+namespace DotNet.Cookbook.Parsing.Table
 {
     /// <summary>
-    /// Gets a value of the specified column and performs type conversion.
+    /// Represents a collection of extension methods for <see cref="ReadOnlyRow" />.
     /// </summary>
-    public static IEnumerable<T> GetColumn<T>(this IEnumerable<ReadOnlyRow> rows, int columnIndex)
+    public static class ReadOnlyRowExtensions
     {
-        if (rows == null)
+        /// <summary>
+        /// Gets a value of the specified column and performs type conversion.
+        /// </summary>
+        public static IEnumerable<T> GetColumn<T>(this IEnumerable<ReadOnlyRow> rows, int columnIndex)
         {
-            throw new ArgumentNullException(nameof(rows));
-        }
+            if (rows == null)
+            {
+                throw new ArgumentNullException(nameof(rows));
+            }
 
-        if (columnIndex < 0)
-        {
-            throw new ArgumentException("Parameter should have a positive value", nameof(columnIndex));
-        }
+            if (columnIndex < 0)
+            {
+                throw new ArgumentException("Parameter should have a positive value", nameof(columnIndex));
+            }
 
-        foreach (var tableRow in rows)
-        {
-            yield return tableRow.Column<T>(columnIndex);
+            foreach (var tableRow in rows)
+            {
+                yield return tableRow.Column<T>(columnIndex);
+            }
         }
     }
 }
